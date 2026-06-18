@@ -78,7 +78,37 @@ INSERT INTO exam_results (exam_id, student_id, score) VALUES
 (4, 1, 89.50),
 (5, 2, 78.00),
 (5, 4, 82.00);
+-----------
+INSERT INTO students (full_name, email)
+SELECT 
+    'Student ' || i,
+    'student' || i || '@example.com'
+FROM generate_series(1, 500) AS i;
 
+INSERT INTO teachers (full_name, department)
+SELECT 
+    'Teacher ' || i,
+    (ARRAY['Computer Science', 'Physics', 'Chemistry', 'Mathematics', 'Biology', 'History'])[floor(random() * 6 + 1)]
+FROM generate_series(1, 50) AS i;
+
+INSERT INTO courses (course_name, teacher_id)
+SELECT 
+    'Course ' || i,
+    floor(random() * 50 + 1)::INT
+FROM generate_series(1, 100) AS i;
+
+INSERT INTO exams (course_id, exam_date)
+SELECT 
+    floor(random() * 100 + 1)::INT,
+    CURRENT_DATE + (random() * 365)::INT
+FROM generate_series(1, 200) AS i;
+
+INSERT INTO exam_results (exam_id, student_id, score)
+SELECT 
+    floor(random() * 200 + 1)::INT,
+    floor(random() * 500 + 1)::INT,
+    (random() * 100)::NUMERIC(5,2)
+FROM generate_series(1, 10000) AS i;
 -----------
 
 select * from courses
